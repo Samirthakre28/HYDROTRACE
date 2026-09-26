@@ -9,10 +9,25 @@ import { logger } from './utils/logger.js';
 
 const app = express();
 
+const rawOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  ...(config.clientOrigin ? config.clientOrigin.split(',') : []),
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : []),
+  'https://hydrotrace-azure.vercel.app',
+];
+
+const allowedOrigins: (string | RegExp)[] = [
+  ...Array.from(new Set(rawOrigins.map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean))),
+  /^https:\/\/.*\.vercel\.app$/,
+];
+
 // Security and utility middleware
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
-  origin: config.clientOrigin,
+  origin: allowedOrigins,
   credentials: true,
 }));
 app.use(express.json());
