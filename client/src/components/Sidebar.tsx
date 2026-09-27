@@ -31,7 +31,7 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-64 bg-[#0E1424] border-r border-slate-800 flex flex-col justify-between shrink-0 min-h-[calc(100vh-65px)]">
+    <aside className="hidden lg:flex w-64 bg-[#0E1424] border-r border-slate-800 flex-col justify-between shrink-0 min-h-[calc(100vh-65px)]">
       <div className="p-4 space-y-6">
         <div className="text-[11px] font-mono tracking-wider text-slate-500 uppercase px-2 font-semibold">
           Core Operations
